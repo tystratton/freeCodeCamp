@@ -85,38 +85,40 @@ def create_spend_chart(categories):
         percentage = i/total
         percentage = int(percentage * 100) // 10 * 10
         percentage_Array.append(percentage)
-    print(spend_Array)
-    # bar calculation
-    bar = "-" * (len(categories) * 3)
+
+
     # Place o on graph
-    final = "Percentage spent by category" + "\n"
+    final = ""
     number = 100
     while number >= 0:
         # if 0
         if number == 0:
-            final = final + "  " + str(number) + "|"
+            final = final + "  " + str(number) + "| "
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
+                    final = final + "o  "
         # if 100
         elif number < 100:
-            final = final + " " + str(number) + "|"
+            final = final + " " + str(number) + "| "
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
+                    final = final + "o  "
         # everything else    
         else:
-            final = final + str(number) + "|"
+            final = final + str(number) + "| "
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
+                    final = final + "o  "
         final = final.rstrip()
         final = final + "\n"
         number-=10
     
+    # bar calculation
+    bar = "-" * (len(categories) * 3)
     final = final + "    -" + bar + "\n"
 
     # prepping for text
+    final = final + "     "
     str_max = ""
     
     # finding max string length
@@ -126,7 +128,6 @@ def create_spend_chart(categories):
     max = len(str_max)
     count = 0
     while count <= max:
-        final = final + "\n" + "     "
         for i in categories:
             if count < len(i.category):
                 word = str(i.category)
@@ -134,7 +135,9 @@ def create_spend_chart(categories):
             else:
                 final = final + "   "
         final = final.rstrip()
+        final = final + "\n" + "     "
         count +=1
+
     return final
 
 def main():
@@ -149,12 +152,9 @@ def main():
     auto = Category("Auto")
     auto.deposit(1000, "deposit")
     auto.withdraw(60, "tires")
-    entertainment = Category("Entertainment")
-    entertainment.deposit(1000, "deposit")
-    entertainment.withdraw(60, "netflix")
     print(food)
     print(clothing)
-    list = [food, clothing, auto, entertainment]
+    list = [food, clothing, auto]
     chart = create_spend_chart(list)
     print(chart)
 
