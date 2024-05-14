@@ -45,6 +45,7 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
         list.clear()
         counter+=1
     probability = f"{m/num_experiments:.3f}"
+    probability = float(probability)
     return probability
 
 def main():
