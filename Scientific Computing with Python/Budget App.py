@@ -1,3 +1,12 @@
+# Budget App
+# Ty Stratton
+# Python 3.12.2, May 14 2024
+# Create category class, instance variables, and create bar graph of transactions
+
+# Variables
+# --
+# wip
+
 class Category:
     def __init__(self, category):
         self.ledger = []
@@ -81,40 +90,59 @@ def create_spend_chart(categories):
         spend_Array.append(balance)
         balance = 0
     total = sum(spend_Array)
+    print(spend_Array)
     for i in spend_Array:
         percentage = i/total
         percentage = int(percentage * 100) // 10 * 10
         percentage_Array.append(percentage)
-    print(spend_Array)
+    print(percentage_Array)
     # bar calculation
     bar = "-" * (len(categories) * 3)
     # Place o on graph
     final = "Percentage spent by category" + "\n"
     number = 100
     while number >= 0:
+
         # if 0
         if number == 0:
-            final = final + "  " + str(number) + "|"
+            add = "  " + str(number) + "|"
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
+                    add = add + " o "
+                else:
+                    add = add + "   "
+                sub = len(bar) - len(add)
+                sub_bar = " " * (sub - 2)
+                add = add + sub_bar
+
         # if 100
         elif number < 100:
-            final = final + " " + str(number) + "|"
+            add = " " + str(number) + "|"
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
+                    add = add + " o "
+                else:
+                    add = add + "   "
+                sub = len(bar) - len(add)
+                sub_bar = " " * (sub-2)
+                add = add + sub_bar
+
         # everything else    
         else:
-            final = final + str(number) + "|"
+            add = str(number) + "|"
             for i in percentage_Array:
                 if i >= number:
-                    final = final + " o "
-        final = final.rstrip()
-        final = final + "\n"
+                    add = add + " o "
+                else:
+                    add = add + "   "
+                sub = len(bar) - len(add)
+                sub_bar = " " * (sub-2)
+                add = add + sub_bar
+
+        final = final + add + " " + "\n"
         number-=10
     
-    final = final + "    -" + bar + "\n"
+    final = final + "    -" + bar
 
     # prepping for text
     str_max = ""
@@ -125,7 +153,7 @@ def create_spend_chart(categories):
             str_max = i.category
     max = len(str_max)
     count = 0
-    while count <= max:
+    while count <= (max-1):
         final = final + "\n" + "     "
         for i in categories:
             if count < len(i.category):
@@ -133,30 +161,24 @@ def create_spend_chart(categories):
                 final = final + word[count] + "  "
             else:
                 final = final + "   "
-        final = final.rstrip()
         count +=1
     return final
 
 def main():
     food = Category("Food")
-    food.deposit(1000, "deposit")
-    food.withdraw(10.15, "groceries")
-    food.withdraw(15.89, "restaurant and more food for dessert")
-    clothing = Category("Clothing")
-    food.transfer(50, clothing)
-    clothing.deposit(100, "deposit")
-    clothing.withdraw(30, "Balenciaga")
-    auto = Category("Auto")
-    auto.deposit(1000, "deposit")
-    auto.withdraw(60, "tires")
     entertainment = Category("Entertainment")
-    entertainment.deposit(1000, "deposit")
-    entertainment.withdraw(60, "netflix")
-    print(food)
-    print(clothing)
-    list = [food, clothing, auto, entertainment]
+    business = Category("Business")    
+    food.deposit(900, "deposit")
+    entertainment.deposit(900, "deposit")
+    business.deposit(900, "deposit")
+
+    food.withdraw(105.55)
+    entertainment.withdraw(33.40)
+    business.withdraw(10.99)
+    list = [business, food, entertainment]
     chart = create_spend_chart(list)
     print(chart)
+    print(repr(chart))
 
 main()
 
