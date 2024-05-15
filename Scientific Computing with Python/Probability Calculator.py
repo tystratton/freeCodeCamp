@@ -12,9 +12,11 @@ class Hat:
         self.contents = content
     
     def draw(self, drawAmount):
-        if len(self.contents) < drawAmount:
-            return self.contents
         colorsDrawn = []
+        if drawAmount > len(self.contents):
+            colorsDrawn = self.contents.copy()
+            self.contents.clear()  # Empty the hat
+            return colorsDrawn
         while drawAmount != 0:
             colorChosen = random.choice(self.contents) # picks color from color list
             colorsDrawn.append(colorChosen)
@@ -25,7 +27,7 @@ class Hat:
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     m = 0
     counter = 0
-    hat_copy = copy.deepcopy(hat.contents)
+    hat_copy = hat.contents.copy()
     while num_experiments > counter: #iterates 2000 times
         list = hat.draw(num_balls_drawn) #draw number of balls
         experiment = {}
@@ -41,7 +43,7 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
                     x+=1
         if x == len(expected_balls):
             m+=1
-        hat.contents = copy.deepcopy(hat_copy)
+        hat.contents = hat_copy.copy()
         list.clear()
         counter+=1
     probability = f"{m/num_experiments:.3f}"
@@ -51,9 +53,10 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
 def main():
     hat = Hat(black=6, red=4, green=3)
     probability = experiment(hat=hat,
-                expected_balls={"red":2,"green":1},
-                num_balls_drawn=5,
-                num_experiments=2000)
+        expected_balls={"red":2,"green":1},
+        num_balls_drawn=20,
+        num_experiments=5)
     print(probability)
+
 
 main()

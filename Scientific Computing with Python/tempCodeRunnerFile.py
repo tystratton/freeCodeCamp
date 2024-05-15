@@ -1,1 +1,1 @@
-hat = Hat(black=6, red=4, green=3)
+list.clear()
